@@ -1,0 +1,9 @@
+server:
+  port: 8190
+spring:
+  profiles:
+    active: local
+
+custom:
+  openweathermap:
+    application-key: 0db6461f53a2b86ccccd42fb8ec1a39c
