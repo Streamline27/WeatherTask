@@ -4,7 +4,6 @@ import lv.mintos.weathertask.Properties
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
-import org.springframework.web.util.UriComponentsBuilder
 
 @Service
 class OpenWeatherMapApiClient(
@@ -21,7 +20,6 @@ class OpenWeatherMapApiClient(
                 "countryCode" to countryCode.toLowerCase(),
                 "city" to city
         )
-
         log.info("Requesting weather data for city:[$city], countryCode:[$countryCode]")
         return restTemplate.getForObject(urlTemplate, Any::class.java, params)!!
     }
