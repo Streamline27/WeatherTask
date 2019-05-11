@@ -1,5 +1,6 @@
 package lv.mintos.weathertask.services.api
 
+import lv.mintos.weathertask.exceptions.ServiceUnavailableException
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
@@ -14,6 +15,13 @@ class WhatIsMyIpApiClient(
 
     fun getMachinePublicIp(): String {
         log.info("Requesting local machine ip address.")
-        return restTemplate.getForObject(url, String::class.java)!!
+        try {
+            val entity = restTemplate.getForEntity(url, String::class.java)
+            if (entity.statusCode.is2xxSuccessful) return entity.body!!
+            else throw ServiceUnavailableException(url)
+        } catch (e: Exception) {
+            log.warn("Unexpected error calling url:[$url]")
+            throw ServiceUnavailableException(url)
+        }
     }
 }
