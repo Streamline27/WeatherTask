@@ -11,9 +11,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 class ExceptionHandler {
     @ExceptionHandler(value = [ServiceUnavailableException::class])
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    fun onStateException(exc: ServiceUnavailableException) =
+    fun onServiceUnavailableException(exc: ServiceUnavailableException) =
             ExceptionResponseDTO(
                     errorCode = ExceptionCode.EXC_SERVICE_UNAVAILABLE,
-                    message = "Ooops... Could not access url:[" + exc.serviceUrl + "]"
+                    message = "Oops... Could not access url:[" + exc.serviceUrl + "]"
+            )
+
+    @ExceptionHandler(value = [Exception::class])
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    fun onException(exc: ServiceUnavailableException) =
+            ExceptionResponseDTO(
+                    errorCode = ExceptionCode.EXC_SYSTEM_EXCEPTION,
+                    message = "Oops... Something went wront. Please try again later!"
             )
 }
