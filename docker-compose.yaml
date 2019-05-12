@@ -1,8 +1,7 @@
 version: '3.5'
 services:
   mintos.weathertask:
-    build:
-      context: ./
+    build: ./
     image: streamline27/mintos.weathertask:latest
     container_name: mintos.weathertask
     ports:
