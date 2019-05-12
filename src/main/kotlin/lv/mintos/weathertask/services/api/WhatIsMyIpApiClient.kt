@@ -2,6 +2,7 @@ package lv.mintos.weathertask.services.api
 
 import lv.mintos.weathertask.exceptions.ServiceUnavailableException
 import org.slf4j.LoggerFactory
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 
@@ -13,6 +14,7 @@ class WhatIsMyIpApiClient(
 
     private val url = "http://bot.whatismyipaddress.com/"
 
+    @Cacheable("machineIp")
     fun getMachinePublicIp(): String {
         log.info("Requesting local machine ip address.")
         try {

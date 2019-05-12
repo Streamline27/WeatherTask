@@ -4,6 +4,7 @@ import lv.mintos.weathertask.dto.GeoLocationDTO
 import lv.mintos.weathertask.exceptions.ServiceUnavailableException
 import lv.mintos.weathertask.services.IpAddressResolver
 import org.slf4j.LoggerFactory
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
@@ -16,6 +17,7 @@ class GeoLocationApiClient(
 
     private val urlTemplate = "http://ip-api.com/json/{ipAddress}"
 
+    @Cacheable("geoLocations")
     fun getFor(ipAddress: String): GeoLocationDTO {
         log.info("Requesting geolocation data for ipAddress:[$ipAddress]")
         val url = getUrl(ipAddress)

@@ -3,6 +3,7 @@ package lv.mintos.weathertask.services.api
 import lv.mintos.weathertask.Properties
 import lv.mintos.weathertask.exceptions.ServiceUnavailableException
 import org.slf4j.LoggerFactory
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
@@ -16,6 +17,7 @@ class OpenWeatherMapApiClient(
 
     private val urlTemplate = "http://api.openweathermap.org/data/2.5/weather?q={city},{countryCode}&appid={appid}"
 
+    @Cacheable("weathers")
     fun getForecastFor(city: String, countryCode: String): Any {
         log.info("Requesting weather data for city:[$city], countryCode:[$countryCode]")
         val url = getUrl(countryCode = countryCode, city = city)

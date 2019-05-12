@@ -3,7 +3,12 @@ server:
 spring:
   profiles:
     active: local
+  cache:
+    cache-names: geoLocations, weathers, machineIp
+    caffeine:
+      spec: maximumSize=100, expireAfterAccess=30m
 
 custom:
   openweathermap:
     application-key: 0db6461f53a2b86ccccd42fb8ec1a39c
+
