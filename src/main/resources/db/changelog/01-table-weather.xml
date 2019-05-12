@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="01-weather-table" author="VladJa">
+        <sql>
+            CREATE TABLE WEATHER(
+                id               NUMBER(20)     NOT NULL,
+                label            VARCHAR2(100)  NOT NULL,
+                description      VARCHAR2(100)  NOT NULL,
+                temperature      DOUBLE         NOT NULL,
+                temperature_min  DOUBLE         NOT NULL,
+                temperature_max  DOUBLE         NOT NULL,
+                pressure         DOUBLE         NOT NULL,
+                humidity         DOUBLE         NOT NULL,
+                wind_speed       DOUBLE         NOT NULL,
+                wind_degree      DOUBLE         NOT NULL,
+                city             VARCHAR2(100)  NOT NULL,
+                country_code     VARCHAR2(8)    NOT NULL,
+                CONSTRAINT pk_weather PRIMARY KEY(id)
+            );
+        </sql>
+
+        <rollback>
+            <sql>
+                DROP TABLE WEATHER;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="01-weather-seq" author="VladJa">
+        <sql>
+            CREATE SEQUENCE seq_weather MINVALUE 10000 MAXVALUE 999999999999999999;
+        </sql>
+
+        <rollback>
+            <sql>
+                DROP SEQUENCE seq_weather;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="01-weather-location-index" author="VladJa">
+        <sql>
+            CREATE INDEX idx_weather_location ON weather(city, country_code);
+        </sql>
+
+        <rollback>
+            <sql>
+                DROP INDEX idx_weather_location;
+            </sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

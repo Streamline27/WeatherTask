@@ -7,6 +7,16 @@ spring:
     cache-names: geoLocations, weathers, machineIp
     caffeine:
       spec: maximumSize=100, expireAfterAccess=30m
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+  liquibase:
+    change-log: classpath:/db/db.changelog-master.xml
+    contexts: default
+logging:
+  config: classpath:logback-spring.xml
 
 custom:
   openweathermap:

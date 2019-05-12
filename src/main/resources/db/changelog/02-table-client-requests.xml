@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="02-client-request-table" author="VladJa">
+        <sql>
+            CREATE TABLE CLIENT_REQUESTS(
+                id            NUMBER(20)     NOT NULL,
+                ip_address    VARCHAR2(100)  NOT NULL,
+                city          VARCHAR2(100)  NOT NULL,
+                country_code  VARCHAR2(8)    NOT NULL,
+                time          DATE           NOT NULL,
+                CONSTRAINT pk_client_requests PRIMARY KEY(id)
+            );
+        </sql>
+
+        <rollback>
+            <sql>
+                DROP TABLE CLIENT_REQUESTS;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="02-client-requests-seq" author="VladJa">
+        <sql>
+            CREATE SEQUENCE seq_client_requests MINVALUE 10000 MAXVALUE 999999999999999999;
+        </sql>
+
+        <rollback>
+            <sql>
+                DROP SEQUENCE seq_client_requests;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="02-client-requests-location-index" author="VladJa">
+        <sql>
+            CREATE INDEX idx_client_requests_location ON weather(city, country_code);
+        </sql>
+
+        <rollback>
+            <sql>
+                DROP INDEX idx_client_requests_location;
+            </sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

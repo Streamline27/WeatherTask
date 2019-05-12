@@ -1,0 +1,31 @@
+<configuration>
+    <!-- On local machine use default spring console logging strategy -->
+    <springProfile name="local">
+        <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    </springProfile>
+
+    <!-- Else log to files -->
+    <springProfile name="!local">
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>./logs/weathertask.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!-- daily rollover -->
+                <fileNamePattern>./logs/weathertask.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+                <!-- keep 10 days' worth of history capped at 1GB total size -->
+                <maxHistory>10</maxHistory>
+                <totalSizeCap>1GB</totalSizeCap>
+            </rollingPolicy>
+
+            <encoder>
+                <pattern>%date{HH:mm:ss.SSS} [%thread] %-5level %logger{35} %msg%n</pattern>
+            </encoder>
+
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="FILE" />
+        </root>
+    </springProfile>
+
+</configuration>

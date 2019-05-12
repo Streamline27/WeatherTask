@@ -22,6 +22,6 @@ class ExceptionHandler {
     fun onException(exc: ServiceUnavailableException) =
             ExceptionResponseDTO(
                     errorCode = ExceptionCode.EXC_SYSTEM_EXCEPTION,
-                    message = "Oops... Something went wront. Please try again later!"
+                    message = "Oops... Something went wrong. Please try again later!"
             )
 }
