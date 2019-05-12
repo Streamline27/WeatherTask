@@ -5,6 +5,7 @@ import lv.mintos.weathertask.domain.model.GeoLocation
 import lv.mintos.weathertask.domain.model.Weather
 import lv.mintos.weathertask.dto.OpenWeatherDTO
 import lv.mintos.weathertask.services.clients.OpenWeatherMapApiClient
+import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 

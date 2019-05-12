@@ -2,6 +2,7 @@ package lv.mintos.weathertask.services
 
 import lv.mintos.weathertask.services.clients.WhatIsMyIpApiClient
 import org.springframework.stereotype.Service
+import java.net.InetAddress
 import javax.servlet.http.HttpServletRequest
 
 /**
@@ -15,22 +16,20 @@ class IpAddressExtractor(
 ) {
     companion object {
         private const val HEADER_VALUE_UNKNOWN = "unknown"
-        private const val LOCALHOST_IP = "0:0:0:0:0:0:0:1"
+        private val ipHeaderCandidates = listOf(
+                "X-Forwarded-For",
+                "Proxy-Client-IP",
+                "WL-Proxy-Client-IP",
+                "HTTP_X_FORWARDED_FOR",
+                "HTTP_X_FORWARDED",
+                "HTTP_X_CLUSTER_CLIENT_IP",
+                "HTTP_CLIENT_IP",
+                "HTTP_FORWARDED_FOR",
+                "HTTP_FORWARDED",
+                "HTTP_VIA",
+                "REMOTE_ADDR"
+        )
     }
-
-    private val ipHeaderCandidates = listOf(
-            "X-Forwarded-For",
-            "Proxy-Client-IP",
-            "WL-Proxy-Client-IP",
-            "HTTP_X_FORWARDED_FOR",
-            "HTTP_X_FORWARDED",
-            "HTTP_X_CLUSTER_CLIENT_IP",
-            "HTTP_CLIENT_IP",
-            "HTTP_FORWARDED_FOR",
-            "HTTP_FORWARDED",
-            "HTTP_VIA",
-            "REMOTE_ADDR"
-    )
 
     fun getIpBy(request: HttpServletRequest): String {
         val ipFromHeaders = getIpFromHeaders(request)
@@ -39,9 +38,10 @@ class IpAddressExtractor(
     }
 
     private fun getIpFromRemoteAddress(request: HttpServletRequest): String {
-        val ipFromRemoteAddr = request.remoteAddr
-        return if (ipFromRemoteAddr == LOCALHOST_IP) whatIsMyIpApi.getMachinePublicIp()
-        else ipFromRemoteAddr
+        val ip = request.remoteAddr
+        val address = InetAddress.getByName(ip)
+        return if (address.isLoopbackAddress || address.isSiteLocalAddress) whatIsMyIpApi.getMachinePublicIp()
+        else ip
     }
 
     private fun getIpFromHeaders(request: HttpServletRequest): String? =

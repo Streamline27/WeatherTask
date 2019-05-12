@@ -1,5 +1,13 @@
 server:
-  port: 8080
+  tomcat:
+    accesslog:
+     enabled: true
+     prefix: weathertask
+     rename-on-rotate: true
+     directory: /logs
 spring:
   profiles:
     active: docker
+  datasource:
+    url: jdbc:h2:file:/data/weathertask-h2-db
+

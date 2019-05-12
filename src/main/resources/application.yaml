@@ -1,5 +1,8 @@
 server:
   port: 8190
+  tomcat:
+    accesslog:
+      enabled: false
 spring:
   profiles:
     active: local
