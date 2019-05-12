@@ -15,8 +15,9 @@ To launch the app use docker run or docker compose. Adjust volume and port to su
 Docker run example:
 ```
 docker run -e "spring.profiles.active=docker" \
-           -p 8190:8080 -h mintos.weathertask \
+           -p 8190:8190 -h mintos.weathertask \
            -v "/Users/Vladislav/Development/Home/Kotlin/logs:/logs" \
+           -v "/Users/Vladislav/Development/Home/Kotlin/data:/data" \
            streamline27/mintos.weathertask:latest
 
 ```
@@ -29,11 +30,12 @@ services:
     image: streamline27/mintos.weathertask:latest
     container_name: mintos.weathertask
     ports:
-      - "8190:8080"
+      - "8190:8190"
     environment:
       - "spring.profiles.active=docker"
 #    volumes:
 #      - "/Users/Vladislav/Development/Home/Kotlin/logs:/logs"
+#      - "/Users/Vladislav/Development/Home/Kotlin/data:/data"
 ```
 
 ### Intellij
