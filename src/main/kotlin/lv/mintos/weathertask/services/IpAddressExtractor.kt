@@ -13,8 +13,11 @@ import javax.servlet.http.HttpServletRequest
 class IpAddressExtractor(
         private val whatIsMyIpApi: WhatIsMyIpApiClient
 ) {
-    private val unknown = "unknown"
-    private val localhostIp = "0:0:0:0:0:0:0:1"
+    companion object {
+        private const val HEADER_VALUE_UNKNOWN = "unknown"
+        private const val LOCALHOST_IP = "0:0:0:0:0:0:0:1"
+    }
+
     private val ipHeaderCandidates = listOf(
             "X-Forwarded-For",
             "Proxy-Client-IP",
@@ -37,7 +40,7 @@ class IpAddressExtractor(
 
     private fun getIpFromRemoteAddress(request: HttpServletRequest): String {
         val ipFromRemoteAddr = request.remoteAddr
-        return if (ipFromRemoteAddr == localhostIp) whatIsMyIpApi.getMachinePublicIp()
+        return if (ipFromRemoteAddr == LOCALHOST_IP) whatIsMyIpApi.getMachinePublicIp()
         else ipFromRemoteAddr
     }
 
@@ -50,5 +53,5 @@ class IpAddressExtractor(
             !headerValue.isNullOrBlank()
 
     private fun notEqualsUnknown(headerValue: String) =
-            headerValue.toLowerCase() != unknown
+            headerValue.toLowerCase() != HEADER_VALUE_UNKNOWN
 }

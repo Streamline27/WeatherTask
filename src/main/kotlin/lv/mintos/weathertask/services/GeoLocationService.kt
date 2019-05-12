@@ -16,9 +16,13 @@ class GeoLocationService(
     fun getFor(ipAddress: String): GeoLocation {
         val locationDto = geolocationApi.getFor(ipAddress)
         val location = internalFormOf(locationDto)
+        storeForLaterReference(location, ipAddress)
+        return location
+    }
+
+    private fun storeForLaterReference(location: GeoLocation, ipAddress: String) {
         val clientRequest = clientRequestFor(location, ipAddress)
         clientRequestDao.save(clientRequest)
-        return location
     }
 
     private fun internalFormOf(locationDto: GeoLocationDTO) = GeoLocation(

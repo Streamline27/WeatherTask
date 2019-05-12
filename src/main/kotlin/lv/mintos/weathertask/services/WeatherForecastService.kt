@@ -16,9 +16,13 @@ class WeatherForecastService(
     @Cacheable("weathers")
     fun getFor(location: GeoLocation): OpenWeatherDTO {
         val weatherDto = openWeatherApi.getForecastFor(location)
+        storeForLaterReference(weatherDto, location)
+        return weatherDto
+    }
+
+    private fun storeForLaterReference(weatherDto: OpenWeatherDTO, location: GeoLocation) {
         val weather = weatherFor(weatherDto, location)
         weatherDao.save(weather)
-        return weatherDto
     }
 
     private fun weatherFor(dto: OpenWeatherDTO, location: GeoLocation) = Weather(
