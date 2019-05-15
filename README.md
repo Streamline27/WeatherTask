@@ -7,6 +7,11 @@ Docker container is deployed to aws.
 ```
 http://18.221.110.125:8190/weather
 ```
+To connect use this: (But you won't be able to do that without certificates anyway)
+```
+ssh -i ~/.ssh/MyKeyPair.pem ubuntu@18.221.110.125
+```
+
 
 ### Docker
 
