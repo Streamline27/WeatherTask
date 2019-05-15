@@ -5,7 +5,7 @@
 Docker container is deployed to aws.
 
 ```
-http://ec2-3-15-13-238.us-east-2.compute.amazonaws.com:8190/weather
+http://18.221.110.125:8190/weather
 ```
 
 ### Docker
